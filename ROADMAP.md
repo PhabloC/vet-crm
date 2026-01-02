@@ -10,7 +10,7 @@
 
 ## 🎯 Solução Proposta
 
-Proponho um CRM chamado "VetCRM Pro" – um SaaS cloud-based com foco em veterinários. Features principais, baseadas em demandas comuns:
+Proponho um CRM chamado "VetCRM" – um SaaS cloud-based com foco em veterinários. Features principais, baseadas em demandas comuns:
 
 ---
 
@@ -53,3 +53,4 @@ Proponho um CRM chamado "VetCRM Pro" – um SaaS cloud-based com foco em veterin
 
 - [ ] Possível login
 - [ ] Habilitar do botão de habiliar e desabilitar alguns serviços que a pessoa queira que apareça no perfil dela.
+- [ ] Colocar um quadro kanban para que possa arrastar os pacientes
