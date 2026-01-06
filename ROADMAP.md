@@ -1,4 +1,4 @@
-# VetCRM Pro - Roadmap
+# VetCRM - Roadmap
 
 ## 📋 Visão Geral
 

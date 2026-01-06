@@ -119,7 +119,7 @@ export default function Sidebar() {
         <div className="flex flex-col h-full">
           {/* Logo/Header da Sidebar */}
           <div className="flex items-center justify-between p-4 border-b border-zinc-200">
-            <h2 className="text-xl font-bold text-blue-600">VetCRM Pro</h2>
+            <img src="/logo.png" alt="VetCRM" width={100} height={100} />
             <button
               onClick={() => setIsOpen(false)}
               className="lg:hidden text-zinc-600 hover:text-zinc-900"

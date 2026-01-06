@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VetCRM Pro - Sistema de Gestão Veterinária",
+  title: "VetCRM - Sistema de Gestão Veterinária",
   description: "Sistema completo de gestão para clínicas veterinárias",
 };
 
