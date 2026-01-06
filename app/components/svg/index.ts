@@ -23,5 +23,5 @@ export { SearchIcon, CloseIcon, MenuIcon } from "./ui-icons";
 export { UsersIcon, PetIcon, CalendarIcon, ChartIcon } from "./dashboard-icons";
 
 // Action Icons
-export { PlusIcon, ClockIcon, FileIcon, BellAlertIcon } from "./action-icons";
+export { PlusIcon, ClockIcon, FileIcon, BellAlertIcon, EditIcon, EyeIcon, TrashIcon } from "./action-icons";
 

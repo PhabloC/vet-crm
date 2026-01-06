@@ -91,7 +91,7 @@ const menuItems: MenuItem[] = [
   },
   {
     label: "Configurações",
-    path: "/configuracoes",
+    path: "/configuracao",
     icon: <SettingsIcon />,
   },
 ];
