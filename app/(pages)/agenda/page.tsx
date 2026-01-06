@@ -4,6 +4,7 @@ import { useState } from "react";
 import MainLayout from "../../components/layout/main-layout/main-layout";
 import Button from "../../components/ui/button/button";
 import Modal from "../../components/ui/modal/modal";
+import Calendar from "../../components/ui/calendar/calendar";
 import {
   PlusIcon,
   SearchIcon,
@@ -85,6 +86,8 @@ export default function Agenda() {
   const [filtroStatus, setFiltroStatus] = useState<string>("all");
   const [filtroData, setFiltroData] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataSelecionada, setDataSelecionada] = useState<string>("");
+  const [viewMode, setViewMode] = useState<"calendar" | "table">("calendar");
 
   const agendamentosFiltrados = agendamentos.filter((agendamento) => {
     const matchBusca =
@@ -153,6 +156,12 @@ export default function Agenda() {
     new Set(agendamentos.map((a) => a.data))
   ).sort();
 
+  const handleDateClick = (date: string) => {
+    setDataSelecionada(date);
+    setFiltroData(date);
+    setViewMode("table");
+  };
+
   return (
     <MainLayout sectionName="Agenda">
       <div className="min-h-screen p-6">
@@ -164,191 +173,231 @@ export default function Agenda() {
               Gerencie todos os agendamentos da clínica
             </p>
           </div>
-          <Button
-            onClick={handleAdicionarAgendamento}
-            variant="primary"
-            size="md"
-            icon={<PlusIcon />}
-          >
-            Novo Agendamento
-          </Button>
+          <div className="flex gap-2">
+            <div className="flex gap-1 bg-zinc-100 p-1 rounded-lg">
+              <button
+                onClick={() => setViewMode("calendar")}
+                className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+                  viewMode === "calendar"
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-zinc-600 hover:text-zinc-900"
+                }`}
+              >
+                Calendário
+              </button>
+              <button
+                onClick={() => setViewMode("table")}
+                className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
+                  viewMode === "table"
+                    ? "bg-white text-blue-600 shadow-sm"
+                    : "text-zinc-600 hover:text-zinc-900"
+                }`}
+              >
+                Lista
+              </button>
+            </div>
+            <Button
+              onClick={handleAdicionarAgendamento}
+              variant="primary"
+              size="md"
+              icon={<PlusIcon />}
+            >
+              Novo Agendamento
+            </Button>
+          </div>
         </div>
 
-        {/* Filtros e Busca */}
-        <div className="mb-6 space-y-4">
-          {/* Barra de Busca */}
-          <div className="w-full max-w-md">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <SearchIcon className="w-5 h-5 text-zinc-400" />
+        {/* Calendário ou Filtros */}
+        {viewMode === "calendar" ? (
+          <div className="mb-6">
+            <Calendar
+              agendamentos={agendamentos}
+              onDateClick={handleDateClick}
+              selectedDate={dataSelecionada}
+            />
+          </div>
+        ) : (
+          <div className="mb-6 space-y-4">
+            {/* Barra de Busca */}
+            <div className="w-full max-w-md">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <SearchIcon className="w-5 h-5 text-zinc-400" />
+                </div>
+                <input
+                  type="text"
+                  value={busca}
+                  onChange={(e) => setBusca(e.target.value)}
+                  placeholder="Buscar por pet, dono, tipo ou telefone..."
+                  className="w-full pl-10 pr-4 py-2 bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-zinc-900 placeholder-zinc-400"
+                />
               </div>
-              <input
-                type="text"
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-                placeholder="Buscar por pet, dono, tipo ou telefone..."
-                className="w-full pl-10 pr-4 py-2 bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-zinc-900 placeholder-zinc-400"
-              />
+            </div>
+
+            {/* Filtros */}
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-zinc-700">
+                  Status:
+                </label>
+                <select
+                  value={filtroStatus}
+                  onChange={(e) => setFiltroStatus(e.target.value)}
+                  className="px-3 py-1.5 bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-zinc-900"
+                >
+                  <option value="all">Todos</option>
+                  <option value="confirmed">Confirmado</option>
+                  <option value="pending">Pendente</option>
+                  <option value="completed">Concluído</option>
+                  <option value="cancelled">Cancelado</option>
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-zinc-700">
+                  Data:
+                </label>
+                <select
+                  value={filtroData}
+                  onChange={(e) => setFiltroData(e.target.value)}
+                  className="px-3 py-1.5 bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-zinc-900"
+                >
+                  <option value="">Todas as datas</option>
+                  {datasUnicas.map((data) => (
+                    <option key={data} value={data}>
+                      {data}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
+        )}
 
-          {/* Filtros */}
-          <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium text-zinc-700">
-                Status:
-              </label>
-              <select
-                value={filtroStatus}
-                onChange={(e) => setFiltroStatus(e.target.value)}
-                className="px-3 py-1.5 bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-zinc-900"
-              >
-                <option value="all">Todos</option>
-                <option value="confirmed">Confirmado</option>
-                <option value="pending">Pendente</option>
-                <option value="completed">Concluído</option>
-                <option value="cancelled">Cancelado</option>
-              </select>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium text-zinc-700">Data:</label>
-              <select
-                value={filtroData}
-                onChange={(e) => setFiltroData(e.target.value)}
-                className="px-3 py-1.5 bg-white border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-zinc-900"
-              >
-                <option value="">Todas as datas</option>
-                {datasUnicas.map((data) => (
-                  <option key={data} value={data}>
-                    {data}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Tabela de Agendamentos */}
-        <div className="bg-white rounded-lg border border-zinc-200 shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-zinc-50 border-b border-zinc-200">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
-                    Data/Hora
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
-                    Pet
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
-                    Dono
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
-                    Tipo
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
-                    Telefone
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-zinc-700 uppercase tracking-wider">
-                    Ações
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-zinc-200">
-                {agendamentosFiltrados.length > 0 ? (
-                  agendamentosFiltrados.map((agendamento) => (
-                    <tr
-                      key={agendamento.id}
-                      className="hover:bg-zinc-50 transition-colors"
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
-                          <CalendarIcon className="w-4 h-4 text-zinc-400" />
-                          <div>
-                            <div className="text-sm font-medium text-zinc-900">
-                              {agendamento.data}
-                            </div>
-                            <div className="text-sm text-zinc-600">
-                              {agendamento.hora}
+        {/* Tabela de Agendamentos - Mostrar apenas no modo lista */}
+        {viewMode === "table" && (
+          <div className="bg-white rounded-lg border border-zinc-200 shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-zinc-50 border-b border-zinc-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
+                      Data/Hora
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
+                      Pet
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
+                      Dono
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
+                      Tipo
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-zinc-700 uppercase tracking-wider">
+                      Telefone
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-zinc-700 uppercase tracking-wider">
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-zinc-200">
+                  {agendamentosFiltrados.length > 0 ? (
+                    agendamentosFiltrados.map((agendamento) => (
+                      <tr
+                        key={agendamento.id}
+                        className="hover:bg-zinc-50 transition-colors"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <CalendarIcon className="w-4 h-4 text-zinc-400" />
+                            <div>
+                              <div className="text-sm font-medium text-zinc-900">
+                                {agendamento.data}
+                              </div>
+                              <div className="text-sm text-zinc-600">
+                                {agendamento.hora}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-zinc-900">
-                          {agendamento.petName}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-zinc-600">
-                          {agendamento.ownerName}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-zinc-600">
-                          {agendamento.tipo}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {getStatusBadge(agendamento.status)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-zinc-600">
-                          {agendamento.telefone}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            onClick={() => handleVisualizar(agendamento.id)}
-                            variant="ghost"
-                            size="sm"
-                            icon={<EyeIcon />}
-                            title="Visualizar agendamento"
-                          />
-                          <Button
-                            onClick={() => handleEditar(agendamento.id)}
-                            variant="ghost"
-                            size="sm"
-                            icon={<EditIcon />}
-                            title="Editar agendamento"
-                          />
-                          <Button
-                            onClick={() => handleExcluir(agendamento.id)}
-                            variant="ghost"
-                            size="sm"
-                            icon={<TrashIcon />}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                            title="Excluir agendamento"
-                          />
-                        </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-zinc-900">
+                            {agendamento.petName}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-zinc-600">
+                            {agendamento.ownerName}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-zinc-600">
+                            {agendamento.tipo}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {getStatusBadge(agendamento.status)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-zinc-600">
+                            {agendamento.telefone}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              onClick={() => handleVisualizar(agendamento.id)}
+                              variant="ghost"
+                              size="sm"
+                              icon={<EyeIcon />}
+                              title="Visualizar agendamento"
+                            />
+                            <Button
+                              onClick={() => handleEditar(agendamento.id)}
+                              variant="ghost"
+                              size="sm"
+                              icon={<EditIcon />}
+                              title="Editar agendamento"
+                            />
+                            <Button
+                              onClick={() => handleExcluir(agendamento.id)}
+                              variant="ghost"
+                              size="sm"
+                              icon={<TrashIcon />}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              title="Excluir agendamento"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="px-6 py-12 text-center text-sm text-zinc-500"
+                      >
+                        Nenhum agendamento encontrado
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="px-6 py-12 text-center text-sm text-zinc-500"
-                    >
-                      Nenhum agendamento encontrado
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Informações adicionais */}
-        <div className="mt-4 text-sm text-zinc-600">
-          Total de agendamentos:{" "}
-          <span className="font-medium">{agendamentosFiltrados.length}</span>
-        </div>
+        {viewMode === "table" && (
+          <div className="mt-4 text-sm text-zinc-600">
+            Total de agendamentos:{" "}
+            <span className="font-medium">{agendamentosFiltrados.length}</span>
+          </div>
+        )}
       </div>
 
       {/* Modal de Novo Agendamento */}
