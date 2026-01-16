@@ -1,6 +1,5 @@
 "use client";
 
-import SearchField from "../../ui/search-field/search-field";
 import { HeaderProps } from "./types";
 
 // Dados mockados do usuário
@@ -22,20 +21,12 @@ export default function Header({ sectionName = "Dashboard" }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Lado esquerdo - Nome da seção */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <h1 className="text-xl font-semibold text-white">{sectionName}</h1>
           </div>
 
-          {/* Centro - Campo de busca */}
-          <div className="flex-1 flex justify-center">
-            <SearchField
-              placeholder="Buscar clientes, pets, agendamentos..."
-              onSearch={handleSearch}
-            />
-          </div>
-
           {/* Lado direito - Informações do usuário */}
-          <div className="flex-shrink-0 flex items-center gap-3">
+          <div className="shrink-0 flex items-center gap-3">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium text-white">{mockUser.name}</p>
               <p className="text-xs text-blue-100">{mockUser.role}</p>

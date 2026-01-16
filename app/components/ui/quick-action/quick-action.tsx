@@ -19,7 +19,7 @@ export default function QuickAction({
   return (
     <button
       onClick={onClick}
-      className={`${colorClasses[color]} border rounded-lg p-4 text-left hover:shadow-md transition-all hover:scale-[1.02] w-full`}
+      className={`${colorClasses[color]} cursor-pointer border rounded-lg p-4 text-left hover:shadow-md transition-all hover:scale-[1.02] w-full`}
     >
       <div className="flex items-start gap-3">
         <div className="mt-1">{icon}</div>

@@ -9,7 +9,6 @@ import {
   ClientsIcon,
   PatientsIcon,
   AgendaIcon,
-  AnimalsIcon,
   HospitalizationIcon,
   ClinicIcon,
   ProductsServicesIcon,
@@ -48,11 +47,6 @@ const menuItems: MenuItem[] = [
     label: "Agenda",
     path: "/agenda",
     icon: <AgendaIcon />,
-  },
-  {
-    label: "Animais",
-    path: "/animais",
-    icon: <AnimalsIcon />,
   },
   {
     label: "Internação",

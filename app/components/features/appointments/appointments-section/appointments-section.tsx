@@ -12,7 +12,7 @@ export default function AppointmentsSection() {
           </h2>
           <button
             onClick={() => console.log("Ver todos")}
-            className="text-sm text-blue-600 hover:underline font-medium"
+            className="text-sm text-blue-600 cursor-pointer hover:underline font-medium"
           >
             Ver todos
           </button>

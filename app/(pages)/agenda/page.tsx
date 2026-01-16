@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import MainLayout from "../../components/layout/main-layout/main-layout";
 import Button from "../../components/ui/button/button";
 import Modal from "../../components/ui/modal/modal";
@@ -81,6 +82,8 @@ const agendamentosMock: Agendamento[] = [
 ];
 
 export default function Agenda() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [agendamentos] = useState<Agendamento[]>(agendamentosMock);
   const [busca, setBusca] = useState("");
   const [filtroStatus, setFiltroStatus] = useState<string>("all");
@@ -88,6 +91,23 @@ export default function Agenda() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataSelecionada, setDataSelecionada] = useState<string>("");
   const [viewMode, setViewMode] = useState<"calendar" | "table">("calendar");
+
+  useEffect(() => {
+    const action = searchParams.get("action");
+    const view = searchParams.get("view");
+
+    if (action === "new") {
+      setIsModalOpen(true);
+      // Remove o parâmetro da URL sem recarregar a página
+      router.replace("/agenda");
+    }
+
+    if (view === "reminders") {
+      // Por enquanto, apenas muda para o modo de lista
+      setViewMode("table");
+      router.replace("/agenda");
+    }
+  }, [searchParams, router]);
 
   const agendamentosFiltrados = agendamentos.filter((agendamento) => {
     const matchBusca =

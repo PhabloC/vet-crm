@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import MainLayout from "../../components/layout/main-layout/main-layout";
 import Button from "../../components/ui/button/button";
 import Modal from "../../components/ui/modal/modal";
@@ -92,10 +93,21 @@ const pacientesMock: Paciente[] = [
 ];
 
 export default function Pacientes() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [pacientes] = useState<Paciente[]>(pacientesMock);
   const [busca, setBusca] = useState("");
   const [filtroEspecie, setFiltroEspecie] = useState<string>("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const action = searchParams.get("action");
+    if (action === "new") {
+      setIsModalOpen(true);
+      // Remove o parâmetro da URL sem recarregar a página
+      router.replace("/pacientes");
+    }
+  }, [searchParams, router]);
 
   const pacientesFiltrados = pacientes.filter((paciente) => {
     const matchBusca =

@@ -15,18 +15,18 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    "cursor-pointer inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variantStyles = {
     primary:
-      "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 focus:ring-blue-500 shadow-sm hover:shadow",
+      "cursor-pointer bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 focus:ring-blue-500 shadow-sm hover:shadow",
     secondary:
-      "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300 focus:ring-zinc-500 border border-zinc-300",
+      "cursor-pointer bg-zinc-100 text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300 focus:ring-zinc-500 border border-zinc-300",
     danger:
-      "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus:ring-red-500 shadow-sm hover:shadow",
+      "cursor-pointer bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus:ring-red-500 shadow-sm hover:shadow",
     ghost:
-      "text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus:ring-zinc-500",
-    link: "text-blue-600 hover:text-blue-700 active:text-blue-800 focus:ring-blue-500 underline-offset-4 hover:underline",
+      "cursor-pointer text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus:ring-zinc-500",
+    link: "cursor-pointer text-blue-600 hover:text-blue-700 active:text-blue-800 focus:ring-blue-500 underline-offset-4 hover:underline",
   };
 
   const sizeStyles = {
@@ -43,7 +43,8 @@ export default function Button({
 
   const widthStyle = fullWidth ? "w-full" : "";
 
-  const combinedClassName = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyle} ${className}`.trim();
+  const combinedClassName =
+    `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyle} ${className}`.trim();
 
   const iconElement = icon && !isLoading && (
     <span className={iconSizeStyles[size]}>{icon}</span>
