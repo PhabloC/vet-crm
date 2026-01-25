@@ -18,7 +18,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden">
       {/* Fundo com efeito gradiente animado */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-400">
+      <div className="absolute inset-0 bg-linear-to-br from-blue-600 via-cyan-500 to-teal-400">
         {/* Círculos decorativos com blur */}
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
         <div className="absolute top-1/3 -right-20 w-96 h-96 bg-cyan-400 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
@@ -28,7 +28,7 @@ export default function LoginPage() {
       {/* Card central */}
       <div className="relative z-10 w-full max-w-4xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden flex min-h-[550px]">
         {/* Lado esquerdo - Imagem/Branding */}
-        <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-400 p-8 flex-col justify-between relative overflow-hidden">
+        <div className="hidden md:flex md:w-1/2 bg-linear-to-br from-blue-600 via-cyan-500 to-teal-400 p-8 flex-col justify-between relative overflow-hidden">
           {/* Padrão decorativo */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 left-10 w-32 h-32 border-4 border-white rounded-full" />
@@ -211,7 +211,7 @@ export default function LoginPage() {
             {/* Botão de Login */}
             <button
               type="submit"
-              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-cyan-600 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg shadow-blue-500/30 cursor-pointer"
+              className="w-full py-3 px-4 bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-cyan-600 focus:ring-4 focus:ring-blue-300 transition-all duration-200 shadow-lg shadow-blue-500/30 cursor-pointer"
             >
               Entrar
             </button>
