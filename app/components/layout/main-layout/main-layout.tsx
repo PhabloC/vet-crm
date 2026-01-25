@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Sidebar from "../sidebar/sidebar";
 import Header from "../header/header";
 import { MainLayoutProps } from "./types";
@@ -8,13 +9,23 @@ export default function MainLayout({
   children,
   sectionName = "Dashboard",
 }: MainLayoutProps) {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
   return (
     <div className="min-h-screen bg-white flex">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar isCollapsed={isSidebarCollapsed} onToggleCollapse={toggleSidebar} />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col lg:ml-64">
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ${
+          isSidebarCollapsed ? "lg:ml-16" : "lg:ml-64"
+        }`}
+      >
         {/* Header */}
         <Header sectionName={sectionName} />
 
